@@ -1,9 +1,9 @@
 package module
 
 import (
+	"github.com/chris-skud/protoc-gen-gotag/tagger"
 	"github.com/fatih/structtag"
 	"github.com/lyft/protoc-gen-star"
-	"github.com/srikrsna/protoc-gen-gotag/tagger"
 )
 
 type tagExtractor struct {
@@ -34,14 +34,13 @@ func (v *tagExtractor) VisitOneOf(o pgs.OneOf) (pgs.Visitor, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	msgName := o.Message().Name().PGGUpperCamelCase().String()
+	msgName := o.Message().Name().UpperCamelCase().String()
 
 	if v.tags[msgName] == nil {
 		v.tags[msgName] = map[string]*structtag.Tags{}
 	}
 
-	v.tags[msgName][o.Name().PGGUpperCamelCase().String()] = tags
+	v.tags[msgName][o.Name().UpperCamelCase().String()] = tags
 
 	return v, nil
 }
@@ -60,17 +59,17 @@ func (v *tagExtractor) VisitField(f pgs.Field) (pgs.Visitor, error) {
 	tags, err := structtag.Parse(tval)
 	v.CheckErr(err)
 
-	msgName := f.Message().Name().PGGUpperCamelCase().String()
+	msgName := f.Message().Name().UpperCamelCase().String()
 
 	if f.InOneOf() {
-		msgName = f.Message().Name().PGGUpperCamelCase().String() + "_" + f.Name().PGGUpperCamelCase().String()
+		msgName = f.Message().Name().UpperCamelCase().String() + "_" + f.Name().UpperCamelCase().String()
 	}
 
 	if v.tags[msgName] == nil {
 		v.tags[msgName] = map[string]*structtag.Tags{}
 	}
 
-	v.tags[msgName][f.Name().PGGUpperCamelCase().String()] = tags
+	v.tags[msgName][f.Name().UpperCamelCase().String()] = tags
 
 	return v, nil
 }

@@ -22,7 +22,7 @@ func (mod) Name() string {
 	return "gotag"
 }
 
-func (m mod) Execute(target pgs.Package, packages map[string]pgs.Package) []pgs.Artifact {
+func (m mod) Execute(targets map[string]pgs.File, packages map[string]pgs.Package) []pgs.Artifact {
 
 	xtv := m.Parameters().Str("xxx")
 
@@ -32,12 +32,12 @@ func (m mod) Execute(target pgs.Package, packages map[string]pgs.Package) []pgs.
 	m.CheckErr(err)
 
 	extractor := newTagExtractor(m)
-	for _, f := range target.Files() {
+	for _, f := range targets {
 		tags := extractor.Extract(f)
 
 		tags.AddTagsToXXXFields(xt)
 
-		gfname := f.OutputPath().SetExt(".go").String()
+		gfname := f.FullyQualifiedName()
 
 		fs := token.NewFileSet()
 		fn, err := parser.ParseFile(fs, gfname, nil, parser.ParseComments)

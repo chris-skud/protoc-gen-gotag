@@ -11,8 +11,8 @@ import (
 	"os"
 	"testing"
 
+	"github.com/chris-skud/protoc-gen-gotag/module"
 	"github.com/fatih/structtag"
-	"github.com/srikrsna/protoc-gen-gotag/module"
 )
 
 var replaceOut = flag.Bool("tag-rep", false, "")

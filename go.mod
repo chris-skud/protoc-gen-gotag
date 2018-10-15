@@ -1,4 +1,4 @@
-module github.com/srikrsna/protoc-gen-gotag
+module github.com/chris-skud/protoc-gen-gotag
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
